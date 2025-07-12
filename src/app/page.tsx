@@ -25,6 +25,19 @@ export default function Home() {
       .catch(() => setStatus('Error starting monitor'));
   }
 
+  const handleStop = async () => {
+    await axios.get('/api/monitor', {
+      params: { stop: true }
+    }).then(() => {
+      setDisableBtn(false);
+      setStatus('Monitoring stopped');
+    }).catch(() => {
+      setStatus('Error stopping monitor');
+    });
+
+    // window.location.reload();
+  };
+
   return (
     <main className='h-screen flex-col flex justify-evenly items-center'>
       <h1 className='text-5xl font-bold'>
@@ -68,7 +81,7 @@ export default function Home() {
 
         <button
           className={`${!disableBtn && "hidden"} bg-red-500/50 hover:bg-red-500/75 cursor-pointer w-full mt-4 rounded-lg p-4`}
-          onClick={() => window.location.reload()}
+          onClick={handleStop}
         >
           Stop
         </button>
